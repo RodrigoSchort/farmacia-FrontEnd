@@ -1,30 +1,30 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dna } from 'react-loader-spinner';
-import Categorias from '../../../models/Categoria';
+import { useNavigate } from 'react-router-dom';
+import Categoria from '../../../models/Categoria';
 import { buscar } from '../../../services/Service';
 import CardCategorias from '../cardCategorias/CardCategorias';
 
 function ListaCategorias() {
-  const [categorias, setCategorias] = useState<Categorias[]>([]);
-
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    buscarCategorias();
-  }, []);
-
-  async function buscarCategorias() {
-    try {
-      await buscar('/categorias', setCategorias);
-    } catch (error: any) {
-      console.error('Erro ao buscar categorias:', error);
-      if (error.toString().includes('403')) {
-
+    const [categorias, setCategorias] = useState<Categoria[]>([]);
+    
+    let navigate = useNavigate();
+  
+    useEffect(() => {
+        buscarCategorias();
+    }, []); 
+  
+    async function buscarCategorias() {
+        try {
+          await buscar('/categorias', setCategorias);
+        } catch (error: any) {
+          console.error('Erro ao buscar categorias:', error);
+          if (error.toString().includes('403')) {
+            // Lidar com o erro 403 (se necessário)
+          }
+        }
       }
-    }
-  }
-
+      
   return (
     <>
       {categorias.length === 0 && (
